@@ -1,5 +1,5 @@
 {
-    "name": "jns/xhprof-bundle",
+    "name": "bbc/programmes-xhprof",
     "type": "symfony-bundle",
     "description": "Symfony JnsXhprofBundle",
     "keywords": ["xhprof"],
@@ -13,9 +13,10 @@
     ],
     "require": {
         "php": "^5.3.2|^7.0",
+        "doctrine/orm": "^2.5",
+        "stof/doctrine-extensions-bundle": "^1.2",
         "symfony/http-kernel": "^2.3|^3.0",
-        "symfony/dependency-injection": "^2.3|^3.0",
-        "pbweb/xhprof": "^1.0"
+        "symfony/dependency-injection": "^2.3|^3.0"
     },
     "require-dev": {
         "doctrine/common": "^2.5",
@@ -31,7 +32,8 @@
     "autoload": {
         "psr-4": {
             "Jns\\Bundle\\XhprofBundle\\": ""
-        }
+        },
+        "classmap": ["preinheimer/xhprof/xhprof_lib/utils/xhprof_runs.php"]
     },
     "extra": {
         "branch-alias": {

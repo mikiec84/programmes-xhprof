@@ -3,37 +3,108 @@
 namespace Jns\Bundle\XhprofBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="details")
+ */
 class XhprofDetail
 {
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="string", unique=true, length=17, nullable=false)
+     * @ORM\Id
+     */
     protected $id;
 
+    /**
+     * @var string $url
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     */
     protected $url;
 
+    /**
+     * @var string $canonicalUrl
+     * @ORM\Column(name="c_url", type="string", length=255, nullable=true)
+     */
     protected $canonicalUrl;
 
+    /**
+     * @var string $serverName
+     * @ORM\Column(name="`server name`", type="string", length=64, nullable=true)
+     */
     protected $serverName;
 
+    /**
+     * @var string $type
+     * @ORM\Column(name="type", type="integer", nullable=true)
+     */
     protected $type;
 
+    /**
+     * @var mixed $perfData
+     * @ORM\Column(name="perfdata", type="blob", nullable=true)
+     */
     protected $perfData;
 
+    /**
+     * @var mixed $cookie
+     * @ORM\Column(name="cookie", type="blob", nullable=true)
+     */
     protected $cookie;
 
+    /**
+     * @var mixed $post
+     * @ORM\Column(name="post", type="blob", nullable=true)
+     */
     protected $post;
 
+    /**
+     * There's a little hack here with the back ticks to get the word
+     * 'get' to work as a column name
+     *
+     * @var int $get
+     * @ORM\Column(name="`get`", type="blob", nullable=true)
+     */
     protected $get;
 
+    /**
+     * @var int $pmu
+     * @ORM\Column(name="pmu", type="integer", nullable=true)
+     */
     protected $pmu;
 
+    /**
+     * @var int $wt
+     * @ORM\Column(name="wt", type="integer", nullable=true)
+     */
     protected $wt;
 
+    /**
+     * @var int $cpu
+     * @ORM\Column(name="cpu", type="integer", nullable=true)
+     */
     protected $cpu;
 
+    /**
+     * @var int $serverId
+     * @ORM\Column(name="server_id", type="string", length=64, nullable=false)
+     */
     protected $serverId;
 
+    /**
+     * @var string $aggregateCallsInclude
+     * @ORM\Column(name="aggregateCalls_include", type="string", length=255, nullable=true)
+     */
     protected $aggregateCallsInclude;
 
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
     protected $timestamp;
 
     /**

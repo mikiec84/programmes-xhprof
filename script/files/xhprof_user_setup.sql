@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON xhprof.* TO 'xhprof'@'localhost' IDENTIFIED BY 'developer';
