@@ -17,9 +17,15 @@ What does this Symfony 2 Bundle do?
 -----------------------------------
 
 This bundle helps you to easily use the XHProf bundle with the web debug toolbar in Symfony 2.
-With Symfony 2.3 and newer, it can also profile console commands.
+With Symfony 2.3 and newer, it can also profile console commands. It comes with [github://preinheimer/xhprof][3] bundled,
+you just have to create a link in your project's web folder to `vendor/bbc/programmes-xhprof/preiheimer/xhprof`.
 
 ## Installation
+
+For a few examples of how to setup this bundle, check 
+[https://github.com/bbc/programmes-frontend/tree/profiling-build](github://bbc/programmes-frontend/profiling-build)
+or [https://github.com/bbc/programmes-clifton/tree/profiling-build](github://bbc/programmes-clifton/profiling-build). 
+The compare view is quite useful to see the setup bits.
 
 Make sure you have XHProf installed.
 If you are on a mac you can easily install it via [Macports][2]
@@ -29,41 +35,40 @@ If you are using PHP 7 you can use the [Tideways XHProf fork](https://tideways.i
 
 1. ### Composer
 
-  Add the following dependencies to your projects composer.json file:
+Add the following dependencies to your projects composer.json file:
 
-    ```json
-    "require": {
-        "jns/xhprof-bundle": "1.0.*@dev",
-        "lox/xhprof": "dev-master@dev"
-    }
-    ```
+```json
+"require": {
+    "jns/xhprof-bundle": "1.0.*@dev",
+    "lox/xhprof": "dev-master@dev"
+}
+```
 
-  Of course, you have to install [xhprof library](http://php.net/manual/fr/book.xhprof.php) (or for PHP 7 the
-  the [Tideways XHProf fork](https://tideways.io/profiler/xhprof-for-php7-php5.6)) in your server.
-  At this moment, `ext-xhprof` is not required because your application could be deployed to a server without xhprof.
+Of course, you have to install [xhprof library](http://php.net/manual/fr/book.xhprof.php) (or for PHP 7 the
+the [Tideways XHProf fork](https://tideways.io/profiler/xhprof-for-php7-php5.6)) in your server.
+At this moment, `ext-xhprof` is not required because your application could be deployed to a server without xhprof.
 
 2. ### Old way by adding to your vendor/bundles/ dir
 
-  1. #### To install the bundle, place it in the `src/Jns/Bundle` directory of your project
+1. #### To install the bundle, place it in the `src/Jns/Bundle` directory of your project
 (so that it lives at `src/Jns/Bundle/XhprofBundle`). You can do this by adding
 the bundle as a submodule, cloning it, or simply downloading the source.
 
-    ```bash
-    $ git submodule add https://github.com/jonaswouters/XhprofBundle.git src/Jns/Bundle/XhprofBundle
-    ```
+```bash
+$ git submodule add https://github.com/jonaswouters/XhprofBundle.git src/Jns/Bundle/XhprofBundle
+```
 
-  2. #### Add the Jns namespace to your autoloader
+2. #### Add the Jns namespace to your autoloader
 
-    If this is the first Jns bundle in your Symfony 2 project, you'll
+If this is the first Jns bundle in your Symfony 2 project, you'll
 need to add the `Jns` namespace to your autoloader. This file is usually located at `app/autoload.php`.
 
-    ```php
-    $loader->registerNamespaces(array(
-        'Jns' => __DIR__.'/../src'
-        // ...
-    ));
-    ```
-
+```php
+$loader->registerNamespaces(array(
+    'Jns' => __DIR__.'/../src'
+    // ...
+));
+```
 
 ### Initializing the bundle
 
@@ -83,6 +88,27 @@ public function registerBundles()
 ```
 
 ## Configuration
+
+### Summary
+| Setting                  | Explanation                                                                                                      | Default                                     |
+|--------------------------|------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
+| location_web             | Link to xhprof GUI, used in the debug bar                                                                        | http://xhprof                               |
+| manager_registry         | Doctrine's registry manager                                                                                      | doctrine                                    |
+| entity_manager           | Entity manager that has the Detail entity                                                                        | default                                     |
+| entity_class             | Detail entity, store's the profile data in the database                                                          | Jns\Bundle\XhprofBundle\Entity\XhprofDetail |
+| enable_xhgui             | Enable Xhgui. Without this, nothing gets stored in the database                                                  | False                                       |
+| exclude_patterns         | URL patterns to be excluded during profiling                                                                     |                                             |
+| sample_size              | Probability of profiling. The larger the number, the smaller the chance                                          | 1                                           |
+| enabled                  | Enable or disable profiling                                                                                      | False                                       |
+| require_extension_exists | Require the extension exists to run                                                                              | True                                        | 
+| skip_builtin_functions   | Don't profile PHP built-in functions                                                                             | False                                       |
+| request_query_argument   | Only activate on requests that have this argument                                                                | False                                       |
+| response_header          | Custom Response header                                                                                           | X-Xhprof-Url                                |
+| server_id                | ID of the server you are profiling                                                                               | default                                     |
+| command                  | on: Always profile, off: Never profile, option: only profile if option specified in command_option_name is given | option                                      |
+| command_option_name      | If "command" is set to "option", this is the name of the additional option that all commands get                 | xhprof                                      |
+| command_exclude_patterns | List of regular expressions to match commands that are not profiled                                              |                                             |
+
 
 ### Configure the XHProf locations.
 
