@@ -42,8 +42,18 @@ class ProfilerSetup:
 
     def nginxConfig(self):
         print 'Updating nginx conf file'
+        extraConfig = '''
+            location = /xhprof/xhprof_html/ {
+                rewrite .* /xhprof/xhprof_html/index.php;
+            }
+'''
         nginxConfigContents = open(self.nginxConfigFile).read()
-        nginxConfig = re.sub(r'(\s+)index(.*?);', r'\1index\2 index.php;', nginxConfigContents)
+        # This puts our config before the last closing brace in the file.
+        # Don't look at me like that, it's perfectly safe... probably...
+        pos = nginxConfigContents.rfind("}")
+        nginxConfig = nginxConfigContents[:pos] + extraConfig + nginxConfigContents[pos:]
+
+        #nginxConfig = re.sub(r'(\s+)index(.*?);', r'\1index\2 index.php;', nginxConfigContents)
 
         with open(self.nginxConfigFile, 'w') as config_file:
             config_file.write(nginxConfig)
